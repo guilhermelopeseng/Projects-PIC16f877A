@@ -101,7 +101,7 @@ L__main9:
 ;Timer0.c,43 :: 		RB7_bit = ~RB7_bit;     // Comutar o estado
 	MOVLW
 	XORWF      RB7_bit+0, 1
-;Timer0.c,44 :: 		contador = 0x00;         // Zera a variável counter
+;Timer0.c,44 :: 		contador = 0x00;         // Zera a variável contador
 	CLRF       _contador+0
 	CLRF       _contador+1
 ;Timer0.c,45 :: 		}

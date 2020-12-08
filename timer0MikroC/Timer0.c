@@ -41,7 +41,7 @@ while(1){
          if(contador == 1000)  {  // Cálculo = (256 - 6)*16*0,000001*1000 = 4 seg.
                                   // Vai haver 1000 estouros
          RB7_bit = ~RB7_bit;     // Comutar o estado
-         contador = 0x00;         // Zera a variável counter
+         contador = 0x00;         // Zera a variável contador
          }
     }
 }
