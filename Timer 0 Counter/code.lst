@@ -1,0 +1,88 @@
+CCS PCM C Compiler, Version 5.097d, 1               15-dez-20 16:37
+Compiler operating in Evaluation Mode
+To obtain a fully enabled compiler visit www.ccsinfo.com/products
+
+               Filename:   C:\Guilherme\Github\PIC 16f877a\Timer 0 Counter\code.lst
+
+               ROM used:   33 words (0%)
+                           Largest free fragment is 2048
+               RAM used:   6 (2%) at main() level
+                           6 (2%) worst case
+               Stack used: 0 locations
+               Stack size: 7
+
+0000:  NOP
+0001:  MOVLW  00
+0002:  MOVWF  0A
+0003:  GOTO   004
+.................... //Autor: Guilherme Lopes
+.................... //Universidade Federal do Piauí
+.................... 
+.................... 
+.................... #include <16F877A.h> 		                 		//Importação da biblioteca							
+.................... //////////// Standard Header file for the PIC16F877A device ////////////////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... ////        (C) Copyright 1996, 2020 Custom Computer Services          ////
+.................... //// This source code may only be used by licensed users of the CCS C  ////
+.................... //// compiler.  This source code may only be distributed to other      ////
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction ////
+.................... //// or distribution is permitted without written permission.          ////
+.................... //// Derivative programs created using this software in object code    ////
+.................... //// form are not restricted in any way.                               ////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... #device PIC16F877A
+.................... 
+.................... #list
+.................... 
+.................... #use delay(crystal=20000000)				        //Definicação do clock do cristal
+.................... 
+.................... 
+.................... //Função principal
+.................... void main()
+0004:  MOVF   03,W
+0005:  ANDLW  1F
+0006:  MOVWF  03
+0007:  BSF    03.5
+0008:  BSF    1F.0
+0009:  BSF    1F.1
+000A:  BSF    1F.2
+000B:  BCF    1F.3
+000C:  MOVLW  07
+000D:  MOVWF  1C
+000E:  BCF    03.7
+.................... {
+....................    setup_timer_0(RTCC_EXT_L_TO_H| RTCC_DIV_1);   
+000F:  MOVF   01,W
+0010:  ANDLW  C7
+0011:  IORLW  28
+0012:  MOVWF  01
+....................    set_timer0(0); 
+0013:  BCF    03.5
+0014:  CLRF   01
+....................  
+....................    while(TRUE){
+.................... 	   
+.................... 	   if(get_timer0() == 4){
+0015:  MOVF   01,W
+0016:  SUBLW  04
+0017:  BTFSS  03.2
+0018:  GOTO   01F
+.................... 		   set_timer0(0);
+0019:  CLRF   01
+.................... 		   output_toggle(PIN_B0);
+001A:  BSF    03.5
+001B:  BCF    06.0
+001C:  MOVLW  01
+001D:  BCF    03.5
+001E:  XORWF  06,F
+.................... 	   }
+001F:  GOTO   015
+....................    	
+....................    }
+.................... }                                  
+0020:  GOTO   020
+
+Configuration Fuses:
+   Word  1: 373A   HS NOWDT NOPUT NOBROWNOUT NOLVP NOCPD NOWRT DEBUG NOPROTECT
+
+   Some fuses have been forced to be compatible with the ICD debugger.

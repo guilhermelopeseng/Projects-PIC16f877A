@@ -1,0 +1,64 @@
+004-005 @WRITE_PROGRAM_MEMORY8.P1
+004-005 @READ_PROGRAM_MEMORY8.P2
+008     PSP_DATA
+015     CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2_LOW
+01B     CCP_2
+01C     CCP_2_HIGH
+021     main.@SCRATCH1
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+09C.6   C1OUT
+09C.7   C2OUT
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+000004  main
+000004  @cinit1
+00000E  @cinit2
+
+Project Directory:
+    C:\Guilherme\Github\PIC 16f877a\Timer 0 Counter\
+
+Project Files:
+    code.c                                                  [15-dez-20 16:37  CRC=44C986C9]
+    ..\..\..\..\Program Files (x86)\PICC\devices\16F877A.h  [16-nov-20 09:29  CRC=20EDA1CC]
+
+Source signature=86A4CA61
+Program memory checksum=0000
+Hex file CRC=91C4
+
+Units:
+    C:\Guilherme\Github\PIC 16f877a\Timer 0 Counter\code (main)
+
+Compiler Settings:
+    Processor:      PIC16F877A
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    ICD Provisions: Yes
+    Compile Mode:   CCS5
+    Predefined symbols:
+       #define __DEBUG 1
+       #define __16F877A TRUE
+
+Compiler operating in Evaluation Mode
+To obtain a fully enabled compiler visit www.ccsinfo.com/products
+
+Output Files:
+    Errors:      code.err
+    INHX8:       code.hex
+    Symbols:     code.sym
+    List:        code.lst
+    Debug/COFF:  code.cof
+    Project:     code.ccspjt
+    Call Tree:   code.tre
+    Statistics:  code.STA

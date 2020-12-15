@@ -1,0 +1,5 @@
+Compiling C:\Guilherme\Github\PIC 16f877a\Primeiro exemplo\code on 10-dez-20 at 18:22
+>>> Warning 208 "C:\Guilherme\Github\PIC 16f877a\Primeiro exemplo\code.c" Line 4(1,5): Function not void and does not return a value  main
+      Memory usage:   ROM=1%      RAM=2% - 2%
+      0 Errors,  1 Warnings.
+Build Successful.
