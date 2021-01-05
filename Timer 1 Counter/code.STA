@@ -13,10 +13,10 @@ Stack size: 7
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-   25     9 100  code.c
+   24     9 100  code.c
   708     0   0  ..\..\..\..\Program Files (x86)\PICC\devices\16F877A.h
 ----- -----
-  733     9 Total
+  732     9 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
@@ -26,14 +26,14 @@ Page ROM  %  RAM    Vol Diff  Functions:
 Program metrics:
     Functions               1
     Statements              9
-    Comments                127
+    Comments                133
     Volume (V)              160
     Difficulty (D)          2.9
     Effort to implement (E) 463
     Time to implement (T)   0 minutes
     Est Delivered Bugs (B)  0
     Cyclomatic Complexity   1
-    Maintainability (MI)    60
+    Maintainability (MI)    67
 
  Segment     Used  Free
 -----------  ----  ----

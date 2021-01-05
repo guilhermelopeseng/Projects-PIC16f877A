@@ -28,12 +28,12 @@ Project Directory:
     C:\Guilherme\Github\Projesto PIC16F877A\Timer 1 Counter\
 
 Project Files:
-    code.c                                                  [05-jan-21 15:12  CRC=44C986C9]
+    code.c                                                  [05-jan-21 15:21  CRC=B4AC3D57]
     ..\..\..\..\Program Files (x86)\PICC\devices\16F877A.h  [16-nov-20 09:29  CRC=20EDA1CC]
 
-Source signature=86A4CA61
+Source signature=F68780EF
 Program memory checksum=0000
-Hex file CRC=D6FA
+Hex file CRC=16A0
 
 Units:
     C:\Guilherme\Github\Projesto PIC16F877A\Timer 1 Counter\code (main)
