@@ -1,0 +1,112 @@
+CCS PCM C Compiler, Version 5.097d, 1               05-jan-21 15:12
+Compiler operating in Evaluation Mode
+To obtain a fully enabled compiler visit www.ccsinfo.com/products
+
+               Filename:   C:\Guilherme\Github\Projesto PIC16F877A\Timer 1 Counter\code.lst
+
+               ROM used:   56 words (1%)
+                           Largest free fragment is 2048
+               RAM used:   7 (2%) at main() level
+                           7 (2%) worst case
+               Stack used: 0 locations
+               Stack size: 7
+
+0000:  NOP
+0001:  MOVLW  00
+0002:  MOVWF  0A
+0003:  GOTO   004
+.................... //Autor: Guilherme Lopes
+.................... //Universidade Federal do Piauí
+.................... 
+.................... 
+.................... #include <16F877A.h> 		                 		//Importação da biblioteca							
+.................... //////////// Standard Header file for the PIC16F877A device ////////////////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... ////        (C) Copyright 1996, 2020 Custom Computer Services          ////
+.................... //// This source code may only be used by licensed users of the CCS C  ////
+.................... //// compiler.  This source code may only be distributed to other      ////
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction ////
+.................... //// or distribution is permitted without written permission.          ////
+.................... //// Derivative programs created using this software in object code    ////
+.................... //// form are not restricted in any way.                               ////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... #device PIC16F877A
+.................... 
+.................... #list
+.................... 
+.................... #use delay(crystal=20000000)				        //Definicação do clock do cristal
+.................... 
+.................... 
+.................... //Função principal
+.................... void main()
+0004:  MOVF   03,W
+0005:  ANDLW  1F
+0006:  MOVWF  03
+0007:  BSF    03.5
+0008:  BSF    1F.0
+0009:  BSF    1F.1
+000A:  BSF    1F.2
+000B:  BCF    1F.3
+000C:  MOVLW  07
+000D:  MOVWF  1C
+000E:  BCF    03.7
+.................... {
+....................    setup_timer_1(T1_EXTERNAL|T1_CLK_OUT);
+000F:  MOVLW  8F
+0010:  BCF    03.5
+0011:  MOVWF  10
+....................    set_timer1(0);
+0012:  CLRF   0E
+0013:  CLRF   0F
+0014:  CLRF   0E
+0015:  NOP
+....................    output_low(PIN_D0); 
+0016:  BSF    03.5
+0017:  BCF    08.0
+0018:  BCF    03.5
+0019:  BCF    08.0
+....................  
+....................    while(TRUE){
+.................... 	   
+.................... 	   if(get_timer1() == 2){
+001A:  MOVF   0F,W
+001B:  MOVWF  7A
+001C:  MOVF   0E,W
+001D:  MOVWF  77
+001E:  MOVF   0F,W
+001F:  SUBWF  7A,W
+0020:  BTFSS  03.2
+0021:  GOTO   01A
+0022:  MOVF   77,W
+0023:  MOVWF  21
+0024:  MOVF   7A,W
+0025:  MOVWF  22
+0026:  MOVF   21,W
+0027:  SUBLW  02
+0028:  BTFSS  03.2
+0029:  GOTO   036
+002A:  MOVF   22,F
+002B:  BTFSS  03.2
+002C:  GOTO   036
+.................... 		   set_timer1(0);
+002D:  CLRF   0E
+002E:  CLRF   0F
+002F:  CLRF   0E
+0030:  NOP
+.................... 		   output_toggle(PIN_D0);
+0031:  BSF    03.5
+0032:  BCF    08.0
+0033:  MOVLW  01
+0034:  BCF    03.5
+0035:  XORWF  08,F
+.................... 	   }
+0036:  GOTO   01A
+....................    	
+....................    }
+.................... }                                  
+0037:  GOTO   037
+
+Configuration Fuses:
+   Word  1: 373A   HS NOWDT NOPUT NOBROWNOUT NOLVP NOCPD NOWRT DEBUG NOPROTECT
+
+   Some fuses have been forced to be compatible with the ICD debugger.
