@@ -1,0 +1,185 @@
+CCS PCM C Compiler, Version 5.097d, 1               16-jan-21 18:16
+Compiler operating in Evaluation Mode
+To obtain a fully enabled compiler visit www.ccsinfo.com/products
+
+               Filename:   C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\code.lst
+
+               ROM used:   103 words (1%)
+                           Largest free fragment is 2048
+               RAM used:   10 (3%) at main() level
+                           10 (3%) worst case
+               Stack used: 0 locations
+               Stack size: 7
+
+0000:  NOP
+0001:  MOVLW  00
+0002:  MOVWF  0A
+0003:  GOTO   004
+.................... /*
+.................... 	Autor: Guilherme Alexandre Lopes Neto
+.................... 	Universidade Federal do Piauí
+.................... 
+.................... */
+.................... #include <16f877a.h>
+.................... //////////// Standard Header file for the PIC16F877A device ////////////////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... ////        (C) Copyright 1996, 2020 Custom Computer Services          ////
+.................... //// This source code may only be used by licensed users of the CCS C  ////
+.................... //// compiler.  This source code may only be distributed to other      ////
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction ////
+.................... //// or distribution is permitted without written permission.          ////
+.................... //// Derivative programs created using this software in object code    ////
+.................... //// form are not restricted in any way.                               ////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... #device PIC16F877A
+.................... 
+.................... #list
+.................... 
+.................... #bit TMR2IF = 0x0c.1
+.................... void main()
+0004:  MOVF   03,W
+0005:  ANDLW  1F
+0006:  MOVWF  03
+0007:  MOVLW  FF
+0008:  MOVWF  20
+0009:  BSF    03.5
+000A:  BSF    1F.0
+000B:  BSF    1F.1
+000C:  BSF    1F.2
+000D:  BCF    1F.3
+000E:  MOVLW  07
+000F:  MOVWF  1C
+0010:  BCF    03.7
+0011:  BCF    03.5
+0012:  CLRF   21
+.................... {
+.................... 	unsigned int8 cont=0; 
+.................... 	unsigned int16 x;
+.................... 	setup_timer_2(T2_DIV_BY_1,249,16); // 1/20kHz = ( y + 1)*4*(1/20MHz)*1
+0013:  MOVLW  78
+0014:  MOVWF  78
+0015:  IORLW  04
+0016:  MOVWF  12
+0017:  MOVLW  F9
+0018:  BSF    03.5
+0019:  MOVWF  12
+.................... 	/*
+.................... 		Calculando o prescaler do Timer2:
+.................... 		0.1s/(1/20kHz) = 2000/16 = 125
+.................... 		Lê-se:
+.................... 		Presciso de 2000 estouros para obter um tempo de 0.1 segundos,
+.................... 		logo se utilizar o prescaler de 16 vou precisar fazar uma contagem
+.................... 		de 125 vezes
+.................... 		
+.................... 		Verificando:
+.................... 		16*50us = 800us * 125 = 0.1s
+.................... 		Lê-se:
+.................... 		16 vezes o período do sinal gerado vai retornar um tempo de 800us
+.................... 		fazendo esse laço 125 vezes vai retornar 0.1s 
+.................... 	*/
+.................... 	SETUP_CCP1(CCP_PWM);
+001A:  BCF    03.5
+001B:  BCF    20.2
+001C:  MOVF   20,W
+001D:  BSF    03.5
+001E:  MOVWF  07
+001F:  BCF    03.5
+0020:  BCF    07.2
+0021:  MOVLW  0C
+0022:  MOVWF  17
+.................... 	
+.................... 	x=0;
+0023:  CLRF   23
+0024:  CLRF   22
+.................... 	SET_PWM1_DUTY(x);
+0025:  MOVF   23,W
+0026:  MOVWF  79
+0027:  MOVF   22,W
+0028:  MOVWF  78
+0029:  RRF    79,F
+002A:  RRF    78,F
+002B:  RRF    79,F
+002C:  RRF    78,F
+002D:  RRF    79,F
+002E:  MOVF   78,W
+002F:  MOVWF  15
+0030:  RRF    79,F
+0031:  RRF    79,W
+0032:  ANDLW  30
+0033:  MOVWF  77
+0034:  MOVF   17,W
+0035:  ANDLW  CF
+0036:  IORWF  77,W
+0037:  MOVWF  17
+.................... 	
+.................... 	while(1)
+.................... 	{
+.................... 		if(TMR2IF == 1) // passou 50*16us = 800us
+0038:  BTFSS  0C.1
+0039:  GOTO   065
+.................... 		{
+.................... 			TMR2IF = 0;
+003A:  BCF    0C.1
+.................... 			cont++;
+003B:  INCF   21,F
+.................... 			if (cont == 125){
+003C:  MOVF   21,W
+003D:  SUBLW  7D
+003E:  BTFSS  03.2
+003F:  GOTO   065
+.................... 				cont=0;
+0040:  CLRF   21
+.................... 				x = x + 100; // incrementando 10%, que corresponde 5us (10%*50us)
+0041:  MOVLW  64
+0042:  ADDWF  22,F
+0043:  BTFSC  03.0
+0044:  INCF   23,F
+.................... 				if (x > 1000) {
+0045:  MOVF   23,W
+0046:  SUBLW  02
+0047:  BTFSC  03.0
+0048:  GOTO   052
+0049:  XORLW  FF
+004A:  BTFSS  03.2
+004B:  GOTO   050
+004C:  MOVF   22,W
+004D:  SUBLW  E8
+004E:  BTFSC  03.0
+004F:  GOTO   052
+.................... 					x = 0;
+0050:  CLRF   23
+0051:  CLRF   22
+.................... 				}
+.................... 				SET_PWM1_DUTY(x);
+0052:  MOVF   23,W
+0053:  MOVWF  79
+0054:  MOVF   22,W
+0055:  MOVWF  78
+0056:  RRF    79,F
+0057:  RRF    78,F
+0058:  RRF    79,F
+0059:  RRF    78,F
+005A:  RRF    79,F
+005B:  MOVF   78,W
+005C:  MOVWF  15
+005D:  RRF    79,F
+005E:  RRF    79,W
+005F:  ANDLW  30
+0060:  MOVWF  77
+0061:  MOVF   17,W
+0062:  ANDLW  CF
+0063:  IORWF  77,W
+0064:  MOVWF  17
+.................... 			}
+.................... 		}
+0065:  GOTO   038
+.................... 		
+.................... 	}
+.................... 
+.................... }
+0066:  GOTO   066
+
+Configuration Fuses:
+   Word  1: 373B   RC NOWDT NOPUT NOBROWNOUT NOLVP NOCPD NOWRT DEBUG NOPROTECT
+
+   Some fuses have been forced to be compatible with the ICD debugger.
