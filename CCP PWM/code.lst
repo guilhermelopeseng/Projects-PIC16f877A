@@ -1,13 +1,13 @@
-CCS PCM C Compiler, Version 5.097d, 1               16-jan-21 18:16
+CCS PCM C Compiler, Version 5.097d, 1               16-jan-21 20:21
 Compiler operating in Evaluation Mode
 To obtain a fully enabled compiler visit www.ccsinfo.com/products
 
                Filename:   C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\code.lst
 
-               ROM used:   103 words (1%)
+               ROM used:   162 words (2%)
                            Largest free fragment is 2048
-               RAM used:   10 (3%) at main() level
-                           10 (3%) worst case
+               RAM used:   13 (4%) at main() level
+                           13 (4%) worst case
                Stack used: 0 locations
                Stack size: 7
 
@@ -36,6 +36,7 @@ To obtain a fully enabled compiler visit www.ccsinfo.com/products
 .................... #list
 .................... 
 .................... #bit TMR2IF = 0x0c.1
+.................... #bit CCP2IF = 0x0d.0
 .................... void main()
 0004:  MOVF   03,W
 0005:  ANDLW  1F
@@ -51,10 +52,13 @@ To obtain a fully enabled compiler visit www.ccsinfo.com/products
 000F:  MOVWF  1C
 0010:  BCF    03.7
 0011:  BCF    03.5
-0012:  CLRF   21
+0012:  CLRF   24
 .................... {
+.................... 	unsigned t1, tempo;
+.................... 	unsigned int1 cap1;
 .................... 	unsigned int8 cont=0; 
 .................... 	unsigned int16 x;
+.................... 	// setup_timer_2(PRESCALER, PR2 Reg, Postcaler)
 .................... 	setup_timer_2(T2_DIV_BY_1,249,16); // 1/20kHz = ( y + 1)*4*(1/20MHz)*1
 0013:  MOVLW  78
 0014:  MOVWF  78
@@ -68,7 +72,7 @@ To obtain a fully enabled compiler visit www.ccsinfo.com/products
 .................... 		0.1s/(1/20kHz) = 2000/16 = 125
 .................... 		Lê-se:
 .................... 		Presciso de 2000 estouros para obter um tempo de 0.1 segundos,
-.................... 		logo se utilizar o prescaler de 16 vou precisar fazar uma contagem
+.................... 		logo se utilizar o prescaler de 16 vou precisar fazer uma contagem
 .................... 		de 125 vezes
 .................... 		
 .................... 		Verificando:
@@ -77,107 +81,191 @@ To obtain a fully enabled compiler visit www.ccsinfo.com/products
 .................... 		16 vezes o período do sinal gerado vai retornar um tempo de 800us
 .................... 		fazendo esse laço 125 vezes vai retornar 0.1s 
 .................... 	*/
+.................... 	SETUP_TIMER_1(T1_INTERNAL| T1_DIV_BY_1);
+001A:  MOVLW  85
+001B:  BCF    03.5
+001C:  MOVWF  10
 .................... 	SETUP_CCP1(CCP_PWM);
-001A:  BCF    03.5
-001B:  BCF    20.2
-001C:  MOVF   20,W
-001D:  BSF    03.5
-001E:  MOVWF  07
-001F:  BCF    03.5
-0020:  BCF    07.2
-0021:  MOVLW  0C
-0022:  MOVWF  17
+001D:  BCF    20.2
+001E:  MOVF   20,W
+001F:  BSF    03.5
+0020:  MOVWF  07
+0021:  BCF    03.5
+0022:  BCF    07.2
+0023:  MOVLW  0C
+0024:  MOVWF  17
+.................... 	SETUP_CCP2(CCP_CAPTURE_RE);
+0025:  BSF    20.1
+0026:  MOVF   20,W
+0027:  BSF    03.5
+0028:  MOVWF  07
+0029:  BCF    03.5
+002A:  CLRF   1D
+002B:  MOVLW  05
+002C:  MOVWF  1D
 .................... 	
 .................... 	x=0;
-0023:  CLRF   23
-0024:  CLRF   22
+002D:  CLRF   26
+002E:  CLRF   25
 .................... 	SET_PWM1_DUTY(x);
-0025:  MOVF   23,W
-0026:  MOVWF  79
-0027:  MOVF   22,W
-0028:  MOVWF  78
-0029:  RRF    79,F
-002A:  RRF    78,F
-002B:  RRF    79,F
-002C:  RRF    78,F
-002D:  RRF    79,F
-002E:  MOVF   78,W
-002F:  MOVWF  15
-0030:  RRF    79,F
-0031:  RRF    79,W
-0032:  ANDLW  30
-0033:  MOVWF  77
-0034:  MOVF   17,W
-0035:  ANDLW  CF
-0036:  IORWF  77,W
-0037:  MOVWF  17
-.................... 	
+002F:  MOVF   26,W
+0030:  MOVWF  79
+0031:  MOVF   25,W
+0032:  MOVWF  78
+0033:  RRF    79,F
+0034:  RRF    78,F
+0035:  RRF    79,F
+0036:  RRF    78,F
+0037:  RRF    79,F
+0038:  MOVF   78,W
+0039:  MOVWF  15
+003A:  RRF    79,F
+003B:  RRF    79,W
+003C:  ANDLW  30
+003D:  MOVWF  77
+003E:  MOVF   17,W
+003F:  ANDLW  CF
+0040:  IORWF  77,W
+0041:  MOVWF  17
+.................... 	cap1 = 1;
+0042:  BSF    23.0
 .................... 	while(1)
 .................... 	{
 .................... 		if(TMR2IF == 1) // passou 50*16us = 800us
-0038:  BTFSS  0C.1
-0039:  GOTO   065
+0043:  BTFSS  0C.1
+0044:  GOTO   070
 .................... 		{
 .................... 			TMR2IF = 0;
-003A:  BCF    0C.1
+0045:  BCF    0C.1
 .................... 			cont++;
-003B:  INCF   21,F
+0046:  INCF   24,F
 .................... 			if (cont == 125){
-003C:  MOVF   21,W
-003D:  SUBLW  7D
-003E:  BTFSS  03.2
-003F:  GOTO   065
+0047:  MOVF   24,W
+0048:  SUBLW  7D
+0049:  BTFSS  03.2
+004A:  GOTO   070
 .................... 				cont=0;
-0040:  CLRF   21
+004B:  CLRF   24
 .................... 				x = x + 100; // incrementando 10%, que corresponde 5us (10%*50us)
-0041:  MOVLW  64
-0042:  ADDWF  22,F
-0043:  BTFSC  03.0
-0044:  INCF   23,F
-.................... 				if (x > 1000) {
-0045:  MOVF   23,W
-0046:  SUBLW  02
-0047:  BTFSC  03.0
-0048:  GOTO   052
-0049:  XORLW  FF
-004A:  BTFSS  03.2
-004B:  GOTO   050
-004C:  MOVF   22,W
-004D:  SUBLW  E8
+004C:  MOVLW  64
+004D:  ADDWF  25,F
 004E:  BTFSC  03.0
-004F:  GOTO   052
+004F:  INCF   26,F
+.................... 				if (x > 1000) {
+0050:  MOVF   26,W
+0051:  SUBLW  02
+0052:  BTFSC  03.0
+0053:  GOTO   05D
+0054:  XORLW  FF
+0055:  BTFSS  03.2
+0056:  GOTO   05B
+0057:  MOVF   25,W
+0058:  SUBLW  E8
+0059:  BTFSC  03.0
+005A:  GOTO   05D
 .................... 					x = 0;
-0050:  CLRF   23
-0051:  CLRF   22
+005B:  CLRF   26
+005C:  CLRF   25
 .................... 				}
 .................... 				SET_PWM1_DUTY(x);
-0052:  MOVF   23,W
-0053:  MOVWF  79
-0054:  MOVF   22,W
-0055:  MOVWF  78
-0056:  RRF    79,F
-0057:  RRF    78,F
-0058:  RRF    79,F
-0059:  RRF    78,F
-005A:  RRF    79,F
-005B:  MOVF   78,W
-005C:  MOVWF  15
-005D:  RRF    79,F
-005E:  RRF    79,W
-005F:  ANDLW  30
-0060:  MOVWF  77
-0061:  MOVF   17,W
-0062:  ANDLW  CF
-0063:  IORWF  77,W
-0064:  MOVWF  17
+005D:  MOVF   26,W
+005E:  MOVWF  79
+005F:  MOVF   25,W
+0060:  MOVWF  78
+0061:  RRF    79,F
+0062:  RRF    78,F
+0063:  RRF    79,F
+0064:  RRF    78,F
+0065:  RRF    79,F
+0066:  MOVF   78,W
+0067:  MOVWF  15
+0068:  RRF    79,F
+0069:  RRF    79,W
+006A:  ANDLW  30
+006B:  MOVWF  77
+006C:  MOVF   17,W
+006D:  ANDLW  CF
+006E:  IORWF  77,W
+006F:  MOVWF  17
 .................... 			}
 .................... 		}
-0065:  GOTO   038
+.................... 		if(CCP2IF == 1)
+0070:  BTFSS  0D.0
+0071:  GOTO   0A0
+.................... 		{
+.................... 			if(cap1 == 1)
+0072:  BTFSS  23.0
+0073:  GOTO   07F
+.................... 			{
+.................... 				t1 = CCP_2;
+0074:  MOVF   1B,W
+0075:  MOVWF  21
+.................... 				SETUP_CCP2(CCP_CAPTURE_FE);
+0076:  BSF    20.1
+0077:  MOVF   20,W
+0078:  BSF    03.5
+0079:  MOVWF  07
+007A:  BCF    03.5
+007B:  CLRF   1D
+007C:  MOVLW  04
+007D:  MOVWF  1D
+.................... 			}else 
+007E:  GOTO   08A
+.................... 			{
+.................... 				tempo = CCP_2 - t1;
+007F:  MOVF   21,W
+0080:  SUBWF  1B,W
+0081:  MOVWF  22
+.................... 				SETUP_CCP2(CCP_CAPTURE_RE);
+0082:  BSF    20.1
+0083:  MOVF   20,W
+0084:  BSF    03.5
+0085:  MOVWF  07
+0086:  BCF    03.5
+0087:  CLRF   1D
+0088:  MOVLW  05
+0089:  MOVWF  1D
+.................... 			}
+.................... 			CCP2IF = 0;
+008A:  BCF    0D.0
+.................... 			cap1 = cap1 ^ 1;
+008B:  MOVLW  00
+008C:  BTFSC  23.0
+008D:  MOVLW  01
+008E:  XORLW  01
+008F:  MOVWF  78
+0090:  BCF    23.0
+0091:  BTFSC  78.0
+0092:  BSF    23.0
+.................... 			
+.................... 			if(tempo > 125)
+0093:  MOVF   22,W
+0094:  SUBLW  7D
+0095:  BTFSC  03.0
+0096:  GOTO   09C
+.................... 			{
+.................... 				output_high(pin_d0);
+0097:  BSF    03.5
+0098:  BCF    08.0
+0099:  BCF    03.5
+009A:  BSF    08.0
+.................... 			}
+009B:  GOTO   0A0
+.................... 			else
+.................... 			{
+.................... 				output_low(pin_d0);
+009C:  BSF    03.5
+009D:  BCF    08.0
+009E:  BCF    03.5
+009F:  BCF    08.0
+.................... 			}
+.................... 		}
+00A0:  GOTO   043
 .................... 		
 .................... 	}
 .................... 
 .................... }
-0066:  GOTO   066
+00A1:  GOTO   0A1
 
 Configuration Fuses:
    Word  1: 373B   RC NOWDT NOPUT NOBROWNOUT NOLVP NOCPD NOWRT DEBUG NOPROTECT

@@ -2,6 +2,7 @@
 004-005 @READ_PROGRAM_MEMORY8.P2
 008     PSP_DATA
 00C.1   TMR2IF
+00D.0   CCP2IF
 015     CCP_1
 015     CCP_1_LOW
 016     CCP_1_HIGH
@@ -9,9 +10,12 @@
 01B     CCP_2
 01C     CCP_2_HIGH
 020     @TRIS_C
-021     main.cont
-022-023 main.x
-024     main.@SCRATCH1
+021     main.t1
+022     main.tempo
+023.0   main.cap1
+024     main.cont
+025-026 main.x
+027     main.@SCRATCH1
 077     @SCRATCH
 078     @SCRATCH
 078     _RETURN_
@@ -19,8 +23,8 @@
 07A     @SCRATCH
 09C.6   C1OUT
 09C.7   C2OUT
-10D-10E @READ_PROGRAM_MEMORY8.P1
-10D-10E @WRITE_PROGRAM_MEMORY8.P2
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
 
 ROM Allocation:
 000004  @cinit1
@@ -31,12 +35,12 @@ Project Directory:
     C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\
 
 Project Files:
-    code.c                                                  [16-jan-21 18:16  CRC=B58F8F41]
+    code.c                                                  [16-jan-21 20:21  CRC=6BA565D8]
     ..\..\..\..\Program Files (x86)\PICC\devices\16f877a.h  [16-nov-20 09:29  CRC=20EDA1CC]
 
-Source signature=F76AD2D9
+Source signature=AD80A970
 Program memory checksum=0000
-Hex file CRC=33EA
+Hex file CRC=E452
 
 Units:
     C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\code (main)

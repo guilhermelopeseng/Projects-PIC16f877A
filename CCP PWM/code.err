@@ -1,5 +1,5 @@
-Compiling C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\code on 16-jan-21 at 18:16
->>> Warning 203 "C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\code.c" Line 32(1,1): Condition always TRUE
-      Memory usage:   ROM=1%      RAM=3% - 3%
+Compiling C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\code on 16-jan-21 at 20:21
+>>> Warning 203 "C:\Guilherme\Github\Projesto PIC16F877A\CCP PWM\code.c" Line 38(1,1): Condition always TRUE
+      Memory usage:   ROM=2%      RAM=4% - 4%
       0 Errors,  1 Warnings.
 Build Successful.

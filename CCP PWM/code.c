@@ -5,8 +5,11 @@
 */
 #include <16f877a.h>
 #bit TMR2IF = 0x0c.1
+#bit CCP2IF = 0x0d.0
 void main()
 {
+	unsigned t1, tempo;
+	unsigned int1 cap1;
 	unsigned int8 cont=0; 
 	unsigned int16 x;
 	// setup_timer_2(PRESCALER, PR2 Reg, Postcaler)
@@ -25,11 +28,13 @@ void main()
 		16 vezes o período do sinal gerado vai retornar um tempo de 800us
 		fazendo esse laço 125 vezes vai retornar 0.1s 
 	*/
+	SETUP_TIMER_1(T1_INTERNAL| T1_DIV_BY_1);
 	SETUP_CCP1(CCP_PWM);
+	SETUP_CCP2(CCP_CAPTURE_RE);
 	
 	x=0;
 	SET_PWM1_DUTY(x);
-	
+	cap1 = 1;
 	while(1)
 	{
 		if(TMR2IF == 1) // passou 50*16us = 800us
@@ -43,6 +48,29 @@ void main()
 					x = 0;
 				}
 				SET_PWM1_DUTY(x);
+			}
+		}
+		if(CCP2IF == 1)
+		{
+			if(cap1 == 1)
+			{
+				t1 = CCP_2;
+				SETUP_CCP2(CCP_CAPTURE_FE);
+			}else 
+			{
+				tempo = CCP_2 - t1;
+				SETUP_CCP2(CCP_CAPTURE_RE);
+			}
+			CCP2IF = 0;
+			cap1 = cap1 ^ 1;
+			
+			if(tempo > 125)
+			{
+				output_high(pin_d0);
+			}
+			else
+			{
+				output_low(pin_d0);
 			}
 		}
 		
